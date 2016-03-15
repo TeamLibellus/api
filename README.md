@@ -136,9 +136,10 @@ Example:
 ```json
 {
   "authToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NCwiaWF0IjoxNDU4MDY2MDQ3fQ.1zCSbOuVOc-GjL2J49MdO7V7M0ZYQGsQDN8xDzIp9BU"
-}```
+}
+```
 
-### `POST /users` `{username, email, password}`
+### `POST /users`
 
 Returns the newly created user info and the JWT representing the current session
 
