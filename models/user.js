@@ -2,6 +2,7 @@ var Sequelize = require('sequelize');
 
 var db = require('../database/sequelize');
 var bcrypt = require('bcrypt');
+var Class = require('../models/class');
 
 var User = db.define('user', {
   username: {
@@ -40,6 +41,11 @@ var User = db.define('user', {
   }
 });
 
+User.belongsToMany(Class, {
+  through: 'user_class',
+  foreignKey: 'user_id',
+  otherKey: 'class_id'
+})
 User.sync();
 
 module.exports = User;

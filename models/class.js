@@ -4,8 +4,9 @@ var db = require('../database/sequelize');
 var Subject = require('./subject');
 var Teacher = require('./teacher');
 var Term = require('./term');
+var User = db.define('user');
 
-exports.Class = db.define('class', {
+var Class = db.define('class', {
   name: {
     type: Sequelize.STRING,
     allowNull: false
@@ -41,8 +42,13 @@ exports.Class = db.define('class', {
   }
 });
 
-exports.Class.belongsTo(Subject);
-exports.Class.belongsTo(Term);
-exports.Class.belongsTo(Teacher);
+Class.belongsTo(Subject);
+Class.belongsTo(Term);
+Class.belongsTo(Teacher);
+Class.belongsToMany(User, {
+  through: 'user_class',
+  foreignKey: 'class_id',
+  otherKey: 'user_id'
+});
 
-module.exports = exports.Class;
+module.exports = Class;
