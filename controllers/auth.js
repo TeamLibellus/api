@@ -38,7 +38,7 @@ exports.register = function(req, res) {
     }, config.jwtSecret);
     return res.send({
       authToken: token,
-      user: _.omit(user, 'hashedPassword')
+      user: _.omit(user.dataValues, 'hashedPassword')
     });
   }).catch((err) => {
     res.status(400).send(err);
