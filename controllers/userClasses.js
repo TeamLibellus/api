@@ -9,36 +9,40 @@ exports.getClasses = function(req, res) {
       include: [{
         all: true
       }]
-    }).then(classes => res.status(200).send(classes))
-    .catch(err => res.status(400).send(err));
+    })
+    .then(classes => res.status(200).send(classes))
+    .catch(err => res.status(500).send({
+      error: 'SERVER_ERROR',
+      message: 'An error occured with the server'
+    }));
 };
 
 exports.addClass = function(req, res) {
   req.user.hasClass(req.body.classId)
     .then(has => {
-      if (!has)
-        req.user.addClass(req.body.classId)
-        .then(() => res.status(200).send('OK'))
-        .catch(err => res.status(400).send({
-          message: err.message,
-          stack: err.stack
-        }));
-      else
-        res.status(200).send('OK');
-    });
+      if (has) {
+        return res.status(204).send();
+      }
+      return req.user.addClass(req.body.classId)
+    })
+    .then(() => res.status(201).send())
+    .catch(err => res.status(500).send({
+      error: 'SERVER_ERROR',
+      message: 'An error occured with the server'
+    }));
 };
 
 exports.removeClass = function(req, res) {
   req.user.hasClass(req.body.classId)
     .then(has => {
-      if (has)
-        req.user.removeClass(req.body.classId)
-        .then(() => res.status(200).send('OK'))
-        .catch(err => res.status(400).send({
-          message: err.message,
-          stack: err.stack
-        }));
-      else
-        res.status(200).send('OK');
+      if (!has) {
+        return res.status(204).send();
+      }
+      return req.user.removeClass(req.body.classId)
     })
+    .then(() => res.status(204).send())
+    .catch(err => res.status(500).send({
+      error: 'SERVER_ERROR',
+      message: 'An error occured with the server'
+    }));
 };
